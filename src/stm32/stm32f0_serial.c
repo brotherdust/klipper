@@ -13,17 +13,17 @@
 
 // Select the configured serial port
 #if CONFIG_SERIAL_PORT == 1
-#if CONFIG_MACH_STM32F031
-DECL_CONSTANT_STR("RESERVE_PINS_serial", "PA14,PA15");
-#define GPIO_Rx GPIO('A', 15)
-#define GPIO_Tx GPIO('A', 14)
-#else
-DECL_CONSTANT_STR("RESERVE_PINS_serial", "PA10,PA9");
-#define GPIO_Rx GPIO('A', 10)
-#define GPIO_Tx GPIO('A', 9)
-#endif
-#define USARTx USART1
-#define USARTx_IRQn USART1_IRQn
+  #if CONFIG_STM32_SERIAL_USART1_ALT
+    DECL_CONSTANT_STR("RESERVE_PINS_serial", "PA15,PA14");
+    #define GPIO_Rx GPIO('A', 15)
+    #define GPIO_Tx GPIO('A', 14)
+  #else
+    DECL_CONSTANT_STR("RESERVE_PINS_serial", "PA10,PA9");
+    #define GPIO_Rx GPIO('A', 10)
+    #define GPIO_Tx GPIO('A', 9)
+  #endif
+  #define USARTx USART1
+  #define USARTx_IRQn USART1_IRQn
 #elif CONFIG_SERIAL_PORT == 2
   #if CONFIG_STM32_SERIAL_USART2_ALT
     DECL_CONSTANT_STR("RESERVE_PINS_serial", "PA15,PA14");
