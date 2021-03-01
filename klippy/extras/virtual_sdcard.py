@@ -152,7 +152,7 @@ class VirtualSD:
             if fname not in files:
                 fname = files_by_lower[fname.lower()]
             fname = os.path.join(self.sdcard_dirname, fname)
-            f = open(fname, 'rb')
+            f = open(fname, 'r')
             f.seek(0, os.SEEK_END)
             fsize = f.tell()
             f.seek(0)
