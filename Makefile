@@ -83,12 +83,10 @@ $(OUT)compile_time_request.o: $(patsubst %.c, $(OUT)src/%.o.ctr,$(src-y)) ./scri
 	$(Q)$(PYTHON) ./scripts/buildcommands.py -d $(OUT)klipper.dict -t "$(CC);$(AS);$(LD);$(OBJCOPY);$(OBJDUMP);$(STRIP)" $(OUT)compile_time_request.txt $(OUT)compile_time_request.c
 	$(Q)$(CC) $(CFLAGS) -c $(OUT)compile_time_request.c -o $@
 
-<<<<<<< HEAD
 $(OUT)klipper.elf: $(OBJS_klipper.elf)
 	@echo "  Linking $@"
 	$(Q)$(CC)  $(CFLAGS_klipper.elf) $(OBJS_klipper.elf) -o $@
 	$(Q)scripts/check-gcc.sh $@ $(OUT)compile_time_request.o
-=======
 ################ Auto generation of "board/" include file link
 
 $(OUT)board-link: $(KCONFIG_CONFIG)
@@ -103,7 +101,6 @@ $(OUT)board-link: $(KCONFIG_CONFIG)
 	$(Q)ln -sf $(PWD)/src/generic $(OUT)board-generic/board
 
 include $(OUT)board-link
->>>>>>> upstream/master
 
 ################ Kconfig rules
 
