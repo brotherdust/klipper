@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 # Script to handle build time requests embedded in C code.
 #
 # Copyright (C) 2016-2021  Kevin O'Connor <kevin@koconnor.net>
@@ -281,8 +281,7 @@ class HandleCommandGeneration:
     def create_message_ids(self):
         # Create unique ids for each message type
         msgid = max(self.msg_to_id.values())
-        mlist = list(self.commands.keys()) + [m for n, m in self.encoders]
-        for msgname in mlist:
+        for msgname in self.commands.keys() + [m for n, m in self.encoders]:
             msg = self.messages_by_name.get(msgname, msgname)
             if msg not in self.msg_to_id:
                 msgid += 1
@@ -541,17 +540,17 @@ class HandleIdentify:
 
         # Write data dictionary
         if options.write_dictionary:
-            f = open(options.write_dictionary, 'w')
+            f = open(options.write_dictionary, 'wb')
             f.write(datadict)
             f.close()
 
         # Format compressed info into C code
-        zdatadict = bytearray(zlib.compress(datadict.encode(), 9))
+        zdatadict = zlib.compress(datadict, 9)
         out = []
         for i in range(len(zdatadict)):
             if i % 8 == 0:
                 out.append('\n   ')
-            out.append(" 0x%02x," % (zdatadict[i],))
+            out.append(" 0x%02x," % (ord(zdatadict[i]),))
         fmt = """
 const uint8_t command_identify_data[] PROGMEM = {%s
 };
@@ -590,7 +589,7 @@ def main():
 
     # Parse request file
     ctr_dispatch = { k: v for h in Handlers for k, v in h.ctr_dispatch.items() }
-    f = open(incmdfile, 'r')
+    f = open(incmdfile, 'rb')
     data = f.read()
     f.close()
     for req in data.split('\n'):
@@ -604,7 +603,7 @@ def main():
 
     # Write output
     code = "".join([FILEHEADER] + [h.generate_code(options) for h in Handlers])
-    f = open(outcfile, 'w')
+    f = open(outcfile, 'wb')
     f.write(code)
     f.close()
 
