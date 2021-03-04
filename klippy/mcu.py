@@ -777,6 +777,10 @@ class MCU:
             self._restart_via_command()
         elif self._restart_method == 'cheetah':
             self._restart_cheetah()
+        elif self._restart_method == 'pin':
+            self._restart_via_pin()
+        elif self._restart_method == 'script':
+            self._restart_via_script()
         else:
             self._restart_arduino()
 
