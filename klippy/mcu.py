@@ -416,7 +416,7 @@ class MCU:
             self._baud = config.getint('baud', 250000, minval=2400)
         self._serial = serialhdl.SerialReader(self._reactor)
         # Restarts
-        restart_methods = [None, 'arduino', 'cheetah', 'command', 'rpi_usb']
+        restart_methods = [None, 'arduino', 'cheetah', 'command', 'rpi_usb', 'pin', 'script']
         self._restart_method = 'command'
         if self._baud:
             rmethods = {m: m for m in restart_methods}
@@ -767,7 +767,7 @@ class MCU:
     def _restart_via_script(self):
         logging.error("Attempting MCU '%s' reset via script", self._name)
         self._disconnect()
-        cmd = "sudo /home/klipper/klipper/scripts/flash-ar100.py --reset"
+        cmd = "sudo /home/debian/klipper/scripts/flash-ar100.py --reset"
         x = os.system(cmd)
         logging.info("Done with result {}".format(x))
     def microcontroller_restart(self):
